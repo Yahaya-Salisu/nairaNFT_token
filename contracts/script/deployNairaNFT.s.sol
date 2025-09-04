@@ -5,13 +5,13 @@ pragma solidity ^0.8.27;
 import { Script } from "forge-std/Script.sol";
 import "../src/nairaNFT.sol";
 
-contract deployNairaNFT is Script {
-    nairaNFT public NFT;
+contract deploynairaNFT is Script {
+    nairaNFT public nft;
 
     function run() public {
 
         vm.startBroadcast();
-        NFT = new nairaNFT();
+        nft = new nairaNFT();
         vm.stopBroadcast();
     }
 }

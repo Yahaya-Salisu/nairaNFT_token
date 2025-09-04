@@ -11,7 +11,7 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 
 /// @custom:security-contact yahayasalisu162@gmail.com
 
-contract NairaNFT is
+contract nairaNFT is
     ERC721,
     ERC721Pausable,
     ERC721Burnable,
@@ -21,8 +21,8 @@ contract NairaNFT is
 {
     // ====== Supply / Minting state ======
     uint256 private _nextTokenId;          // current supply counter
-    uint256 public immutable maxSupply;    // hard cap
-    uint256 public mintPrice;              // price per NFT (in wei)
+    uint256 public immutable maxSupply = 1_000;    // hard cap
+    uint256 public mintPrice;              // price per nft (in wei)
     uint256 public maxPerWallet;           // anti-whale per wallet cap
     mapping(address => uint256) public mintedBy; // mints per wallet
 
@@ -62,8 +62,13 @@ contract NairaNFT is
         maxPerWallet = newMax;
     }
 
-    function pause() external onlyOwner { _pause(); }
-    function unpause() external onlyOwner { _unpause(); }
+    function pause() external onlyOwner {
+        _pause();
+        }
+
+    function unpause() external onlyOwner {
+        _unpause();
+        }
 
     /// Owner/airdrop mint
     function ownerMint(address to, uint256 quantity) external onlyOwner {
@@ -96,8 +101,8 @@ contract NairaNFT is
 
     // ====== Withdraw funds ======
     function withdraw(address payable to) external onlyOwner {
-        (bool ok, ) = to.call{value: address(this).balance}("");
-        require(ok, "withdraw failed");
+        (bool sent, ) = to.call{value: address(this).balance}("");
+        require(sent, "withdraw failed");
     }
 
     // ====== Metadata (baseURI pattern) ======
